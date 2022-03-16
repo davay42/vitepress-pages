@@ -6,6 +6,7 @@
   "main": "./main.js",
   "exports": {
     ".": {
+      "require":"./main.js",
       "import": "./main.js"
     },
     "./*": "./*"
