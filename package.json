@@ -1,0 +1,27 @@
+{
+  "name": "vitepress-pages",
+  "version": "0.3.0",
+  "type": "module",
+  "module": "./main.js",
+  "main": "./main.js",
+  "exports": {
+    ".": {
+      "import": "./main.js"
+    },
+    "./*": "./*"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "node test.js"
+  },
+  "dependencies": {
+    "app-root-path":"^3.0.0",
+    "gray-matter":"^4.0.3",
+    "sharp":"^0.30.3",
+    "vite-plugin-pages-sitemap":"^1.1.11"
+  },
+  "devDependencies": {
+    "vite": "^2.8.0"
+  }
+}
