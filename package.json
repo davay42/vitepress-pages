@@ -4,7 +4,6 @@
   "type": "module",
   "module": "./main.js",
   "main": "./main.js",
-  "exports": "./main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
