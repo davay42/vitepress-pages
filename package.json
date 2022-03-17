@@ -4,12 +4,7 @@
   "type": "module",
   "module": "./main.js",
   "main": "./main.js",
-  "exports": {
-    ".": {
-      "import": "./main.js"
-    },
-    "./*": "./*"
-  },
+  "exports": "./main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
