@@ -21,7 +21,6 @@
     "preview": "node test.js"
   },
   "dependencies": {
-    "app-root-path": "^3.0.0",
     "gray-matter": "^4.0.3",
     "sharp": "^0.30.3"
   },
