@@ -58,6 +58,25 @@ export function generatePages({
             }
           })
 
+        if (filePath.endsWith('.svg')) {
+          fs.copyFileSync(
+            path.resolve(filePath.substring(1)),
+            path.join(publicPath, fileName)
+          );
+        } else {
+          sharp(path.resolve(filePath.substring(1)))
+            .resize({
+              width: media == 'icon' ? 300 : 1200,
+              height: media == 'icon' ? 300 : 1200,
+              fit: 'inside'
+            })
+            .toFile(path.join(publicPath, fileName), (err, info) => {
+              if (err) {
+                console.log(err, filePath)
+              }
+            })
+        }
+
       }
     }
 
