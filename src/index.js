@@ -46,18 +46,6 @@ export function generatePages({
           });
         }
 
-        sharp(path.resolve(filePath.substring(1)))
-          .resize({
-            width: publicMedia[media].width,
-            height: publicMedia[media].height,
-            fit: publicMedia[media].fit
-          })
-          .toFile(path.join(publicPath, fileName), (err, info) => {
-            if (err) {
-              console.log(err, filePath)
-            }
-          })
-
         if (filePath.endsWith('.svg')) {
           fs.copyFileSync(
             path.resolve(filePath.substring(1)),
