@@ -15,6 +15,12 @@
     "url": "https://ko-fi.com/davay"
   },
   "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsup src/index.js",
