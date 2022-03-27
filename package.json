@@ -14,12 +14,10 @@
     "type": "ko-fi",
     "url": "https://ko-fi.com/davay"
   },
-  "module": "./dist/vitepress-pages.es.js",
-  "main": "./dist/vitepress-pages.cjs.js",
-  "exports": "./dist/vitepress-pages.cjs.js",
+  "main": "./dist/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsup src/index.js",
     "preview": "node test.js"
   },
   "dependencies": {
@@ -28,6 +26,7 @@
     "sharp": "^0.30.3"
   },
   "devDependencies": {
+    "tsup": "^5.12.1",
     "vite": "^2.8.6",
     "vue": "^3.2.31",
     "@vitejs/plugin-vue": "^2.2.4",

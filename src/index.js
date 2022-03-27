@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 import matter from "gray-matter";
 import sharp from 'sharp'
 
@@ -15,7 +15,7 @@ export function generatePages({
 } = {}) {
 
   function extendRoute(route) {
-    const pageDir = path.resolve(route.component.substr(1));
+    const pageDir = path.resolve(route.component.substring(1));
     const frontmatter = matter.read(pageDir, { excerpt: true });
     const { data, excerpt, content } = frontmatter;
     const page = {
@@ -45,7 +45,7 @@ export function generatePages({
           });
         }
 
-        sharp(path.resolve(filePath.substr(1)))
+        sharp(path.resolve(filePath.substring(1)))
           .resize({
             width: publicMedia[media].width,
             height: publicMedia[media].height,
