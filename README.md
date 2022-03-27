@@ -13,15 +13,24 @@ pnpm i -D vitepress-pages
 ```js
 import { defineConfig } from "vite";
 import Pages from "vite-plugin-pages";
+import generateSitemap from "vite-plugin-pages-sitemap";
 export default defineConfig({
   plugins: [
-    Pages(generatePages({
-      dirs: [{ dir: 'pages', baseRoute: '/' }], //directories to scan
-      mediaFolder: 'media_files', // a folder in /public to place optimized images to
-      publicMedia: ['icon', 'cover'], // frontmatter fields with images to parse
-      hostname: 'https://defucc.me', // your site url for the sitemap
-      extensions: ["md"], // filetypes to scan
-    })),
-  ]
-})
+    Pages({
+      ...generatePages({
+        dirs: [{ dir: "pages", baseRoute: "pages" }], //directories to scan
+        excerpt_separator: "---", // excerpts are enabled by default
+        mediaFolder: "media_files", // a folder in /public to place optimized images to
+        publicMedia: {
+          icon: { width: 300, height: 300, fit: "inside" },
+          cover: { size: 1200, height: 800, fit: "inside" },
+        }, // frontmatter fields with images to parse with sharp.js
+        hostname: "https://defucc.me", // your site url for the sitemap
+        extensions: ["md"], // filetypes to scan
+      }),
+      onRoutesGenerated: (routes) =>
+        generateSitemap({ routes, hostname: "http://localhost" }),
+    }),
+  ],
+});
 ```
