@@ -1,23 +1,24 @@
 import * as fs from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import sharp from 'sharp'
-
+import sharp from "sharp";
 
 export function generatePages({
-  dirs = [{ dir: 'pages', baseRoute: 'pages' }],
-  excerpt_separator = '---',
-  mediaFolder = 'media_files',
+  dirs = [{ dir: "pages", baseRoute: "pages" }],
+  excerpt_separator = "---",
+  mediaFolder = "media_files",
   publicMedia = {
-    icon: { width: 300, height: 300, fit: 'inside' },
-    cover: { size: 1200, height: 800, fit: 'inside' }
+    icon: { width: 300, height: 300, fit: "inside" },
+    cover: { size: 1200, height: 800, fit: "inside" },
   },
   extensions = ["md"],
 } = {}) {
-
   function extendRoute(route) {
     const pageDir = path.resolve(route.component.substring(1));
-    const frontmatter = matter.read(pageDir, { excerpt: true, excerpt_separator });
+    const frontmatter = matter.read(pageDir, {
+      excerpt: true,
+      excerpt_separator,
+    });
     const { data, excerpt, content } = frontmatter;
     const page = {
       ...route,
@@ -36,7 +37,7 @@ export function generatePages({
         const filePath = path.join(route.path, file);
         const fileName = filePath.split("/").filter(Boolean).join("-");
         const publicPath = path.resolve("public", mediaFolder, media);
-        const url = path.join("/", mediaFolder, media, fileName)
+        const url = path.join("/", mediaFolder, media, fileName);
 
         page[media] = url;
 
@@ -46,7 +47,7 @@ export function generatePages({
           });
         }
 
-        if (filePath.endsWith('.svg')) {
+        if (filePath.endsWith(".svg")) {
           fs.copyFileSync(
             path.resolve(filePath.substring(1)),
             path.join(publicPath, fileName)
@@ -54,25 +55,23 @@ export function generatePages({
         } else {
           sharp(path.resolve(filePath.substring(1)))
             .resize({
-              width: media == 'icon' ? 300 : 1200,
-              height: media == 'icon' ? 300 : 1200,
-              fit: 'inside'
+              width: media == "icon" ? 300 : 1200,
+              height: media == "icon" ? 300 : 1200,
+              fit: "inside",
             })
             .toFile(path.join(publicPath, fileName), (err, info) => {
               if (err) {
-                console.log(err, filePath)
+                console.log(err, filePath);
               }
-            })
+            });
         }
-
       }
     }
-
     return page;
   }
   return {
     dirs,
     extensions,
     extendRoute,
-  }
+  };
 }
