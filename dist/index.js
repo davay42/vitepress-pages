@@ -48,6 +48,7 @@ var import_gray_matter = __toESM(require("gray-matter"));
 var import_sharp = __toESM(require("sharp"));
 function generatePages({
   dirs = [{ dir: "pages", baseRoute: "pages" }],
+  excerpt_separator = "---",
   mediaFolder = "media_files",
   publicMedia = {
     icon: { width: 300, height: 300, fit: "inside" },
@@ -57,7 +58,7 @@ function generatePages({
 } = {}) {
   function extendRoute(route) {
     const pageDir = path.resolve(route.component.substring(1));
-    const frontmatter = import_gray_matter.default.read(pageDir, { excerpt: true });
+    const frontmatter = import_gray_matter.default.read(pageDir, { excerpt: true, excerpt_separator });
     const { data, excerpt, content } = frontmatter;
     const page = __spreadProps(__spreadValues(__spreadValues({}, route), data), {
       excerpt,

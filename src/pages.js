@@ -1,7 +1,7 @@
 import routes from "~pages";
 
 
-function usePages(routes) {
+export function usePages(routes) {
   const pages = {};
   for (let route of routes) {
     const split = route.path.split("/").slice(0, -1).join("/");
