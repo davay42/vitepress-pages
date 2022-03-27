@@ -13,7 +13,9 @@ pnpm i -D vitepress-pages
 ```js
 import { defineConfig } from "vite";
 import Pages from "vite-plugin-pages";
-import generateSitemap from "vite-plugin-pages-sitemap";
+
+import generateSitemap from "vite-plugin-pages-sitemap"; //optional
+
 export default defineConfig({
   plugins: [
     Pages({
@@ -29,7 +31,7 @@ export default defineConfig({
         extensions: ["md"], // filetypes to scan
       }),
       onRoutesGenerated: (routes) =>
-        generateSitemap({ routes, hostname: "http://localhost" }),
+        generateSitemap({ routes, hostname: "http://your.site.url" }),
     }),
   ],
 });
