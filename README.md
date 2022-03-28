@@ -14,20 +14,18 @@ pnpm i vitepress-pages
 
 ```js
 import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
 import Pages from "vite-plugin-pages";
-import generateSitemap from "vite-plugin-pages-sitemap";
 import { extendRoutes } from "vitepress-pages";
+import generateSitemap from "vite-plugin-pages-sitemap"; //optiona;
 
 export default defineConfig({
   plugins: [
-    vue(),
     Pages({
       dirs: [{ dir: ".", baseRoute: "." }],
       extensions: ["md"],
       ...extendRoutes(),
       onRoutesGenerated: (routes) =>
-        generateSitemap({ routes, hostname: "http://localhost/" }),
+        generateSitemap({ routes, hostname: "http://localhost/" }), //provide a hostname and generate a `sitemap.xml` in the public folder
     }),
   ],
 });
