@@ -11,28 +11,21 @@ export default defineConfig({
   lang: 'en',
   outDir: "docs",
   themeConfig: {
-    repo: "",
+    repo: "https://github.com/davay42/vitepress-pages",
     logo: null,
     color: "#ccc"
   },
   vite: {
-    build: {
-      chunkSizeWarningLimit: 300000,
-    },
-
     plugins: [
       Pages({
         dirs: [
           { dir: ".", baseRoute: "." },
-          { dir: "pages", baseRoute: "pages" },
         ],
-        exclude: ['**/node_modules/**/*.*', '**/README.md'],
+        exclude: ['**/node_modules/**/*.*', '**/!(index).md'],
         extensions: ['md'],
         ...extendRoutes(),
         onRoutesGenerated: routes => (generateSitemap({ routes, hostname: 'http://localhost/' })),
       }),
-
     ],
-
   },
 });
