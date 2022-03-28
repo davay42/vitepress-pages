@@ -12,26 +12,20 @@ pnpm i -D vitepress-pages
 
 ```js
 import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
 import Pages from "vite-plugin-pages";
-
-import generateSitemap from "vite-plugin-pages-sitemap"; //optional
+import generateSitemap from "vite-plugin-pages-sitemap";
+import { extendRoutes } from "./src";
 
 export default defineConfig({
   plugins: [
+    vue(),
     Pages({
-      ...generatePages({
-        dirs: [{ dir: "pages", baseRoute: "pages" }], //directories to scan
-        excerpt_separator: "---", // excerpts are enabled by default
-        mediaFolder: "media_files", // a folder in /public to place optimized images to
-        publicMedia: {
-          icon: { width: 300, height: 300, fit: "inside" },
-          cover: { size: 1200, height: 800, fit: "inside" },
-        }, // frontmatter fields with images to parse with sharp.js
-        hostname: "https://defucc.me", // your site url for the sitemap
-        extensions: ["md"], // filetypes to scan
-      }),
+      dirs: [{ dir: "pages", baseRoute: "pages" }],
+      extensions: ["md"],
+      ...extendRoutes(),
       onRoutesGenerated: (routes) =>
-        generateSitemap({ routes, hostname: "http://your.site.url" }),
+        generateSitemap({ routes, hostname: "http://localhost/" }),
     }),
   ],
 });

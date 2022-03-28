@@ -3,22 +3,21 @@ import * as path from "path";
 import matter from "gray-matter";
 import sharp from "sharp";
 
-export function generatePages({
-  dirs = [{ dir: "pages", baseRoute: "pages" }],
-  excerpt_separator = "---",
+export function extendRoutes({
+  graymatter = {
+    excerpt: true,
+    excerpt_separator: "<!-- excerpt -->",
+  },
   mediaFolder = "media_files",
-  publicMedia = {
+  mediaTypes = {
     icon: { width: 300, height: 300, fit: "inside" },
     cover: { size: 1200, height: 800, fit: "inside" },
   },
-  extensions = ["md"],
 } = {}) {
   function extendRoute(route) {
+    console.log(route)
     const pageDir = path.resolve(route.component.substring(1));
-    const frontmatter = matter.read(pageDir, {
-      excerpt: true,
-      excerpt_separator,
-    });
+    const frontmatter = matter.read(pageDir, graymatter);
     const { data, excerpt, content } = frontmatter;
     const page = {
       ...route,
@@ -30,8 +29,7 @@ export function generatePages({
     if (data.type == "block") {
       page.content = content;
     }
-
-    for (let media in publicMedia) {
+    for (let media in mediaTypes) {
       if (data[media]) {
         let file = data[media];
         const filePath = path.join(route.path, file);
@@ -61,7 +59,7 @@ export function generatePages({
             })
             .toFile(path.join(publicPath, fileName), (err, info) => {
               if (err) {
-                console.log(err, filePath);
+                console.log(err, filePath, info);
               }
             });
         }
@@ -69,9 +67,5 @@ export function generatePages({
     }
     return page;
   }
-  return {
-    dirs,
-    extensions,
-    extendRoute,
-  };
+  return { extendRoute }
 }

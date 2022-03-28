@@ -8,4 +8,8 @@ Test text in the child page
 
 ## New line
 
----
+<!-- excerpt -->
+
+This is after the excerpt
+
+<browser />

@@ -25,13 +25,18 @@
   "main": "./dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./browser": {
+      "import": "./dist/browser.mjs",
+      "require": "./dist/browser.js"
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsup src/index.js",
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "lib": "tsup src/index.js src/browser.js --format esm,cjs",
     "preview": "node test.js"
   },
   "dependencies": {
@@ -39,11 +44,13 @@
     "sharp": "^0.30.3"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.4",
     "tsup": "^5.12.1",
     "vite": "^2.8.6",
-    "vue": "^3.2.31",
-    "@vitejs/plugin-vue": "^2.2.4",
+    "vitepress": "0.22.2",
+    "vite-plugin-md": "^0.12.4",
     "vite-plugin-pages": "^0.22.0",
-    "vite-plugin-pages-sitemap": "^1.1.11"
+    "vite-plugin-pages-sitemap": "^1.1.11",
+    "vue": "^3.2.31"
   }
 }

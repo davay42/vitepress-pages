@@ -5,3 +5,5 @@ icon: circleo.svg
 ---
 
 Hello from pages
+
+<browser />
