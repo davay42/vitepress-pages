@@ -1,6 +1,11 @@
-Ever thought about using [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages) with [vitepress](https://vitepress.vuejs.org/?
+Ever thought about using [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages) with [Vitepress](https://vitepress.vuejs.org/)?
 
-Automatially generated SSR routes directly from `md` pages. `vitepress-pages` is an extension for `vite-plugin-pages` to parse all the folders, add the frontmatter to the pages array and eben treat some special media fields as images to optimize and utiliae in your theme.
+Automatically generated SSR routes directly from `md` pages. `vitepress-pages` is an extension for `vite-plugin-pages` to parse all the folders, add the frontmatter to the pages array and even treat some special media fields as images to optimize and utilize in your theme.
+
+We use:
+
+- [graymatter](https://github.com/jonschlinkert/gray-matter) for parsing markdown files. We copy all the frontmatter, generate excerpt and have a flag for empty content. We don't load all the file contents in order to keep the list light enough even for quite big sites.
+- [sharp](https://github.com/lovell/sharp) for image resizing.
 
 ## Installation
 
@@ -16,7 +21,7 @@ pnpm i vitepress-pages
 import { defineConfig } from "vite";
 import Pages from "vite-plugin-pages";
 import { extendRoutes } from "vitepress-pages";
-import generateSitemap from "vite-plugin-pages-sitemap"; //optiona;
+import generateSitemap from "vite-plugin-pages-sitemap"; //optional;
 
 export default defineConfig({
   plugins: [
@@ -31,13 +36,32 @@ export default defineConfig({
 });
 ```
 
+## Options
+
+You can customize the `extendRoutes` call with these options:
+
+```js
+{
+...extendRoutes({ //these are default options
+        graymatter: { // graymatter options
+          excerpt: true,
+          excerpt_separator: "<!-- excerpt -->",
+        },
+        mediaFolder: "media_files", // a folder name inside your /public/ to put all the resized images to
+        mediaTypes: { // what frontmatter fields should be considered as images and how should sharp deal with them
+          icon: { width: 300, height: 300, fit: "inside" },
+          cover: { size: 1200, height: 800, fit: "inside" },
+        },
+      })
+}
+```
+
 ## Usage
 
 You can import the list of all routes from `~pages` anywhere in the app. We provide basic of functions at `vitepress-pages/browser` to navigate them easily.
 
 ```js
 import { useRoute } from "vitepress";
-
 const route = useRoute(); // current page route
 
 import {
