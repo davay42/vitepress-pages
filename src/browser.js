@@ -2,9 +2,10 @@ export function trailSlash(url) {
   return (url += url.endsWith("/") ? "" : "/");
 }
 
-let pages = {};
+export let pages
 
 export function getPages(routes) {
+  if (pages) return pages
   pages = {}
   for (let route of routes) {
     const split = route.path.split("/").slice(0, -1).join("/");
@@ -34,24 +35,21 @@ export function getPage(path, routes) {
   return { page, pages, siblings, parents };
 }
 
-export function getSiblings(path, pages) {
-  const siblings = {
-    prev: null,
-    next: null,
-  };
+export function getSiblings(path, routes) {
+  let prev, next
   const folder = trailSlash(path.split("/").slice(0, -2).join("/"));
-
+  const pages = getPages(routes)
   const list = pages[folder];
   if (list) {
     const index = list.findIndex((page) => trailSlash(page.path) == path);
     if (index >= 0 && index <= list.length) {
-      siblings.next = list[index + 1];
+      next = list[index + 1];
     }
     if (index > 0) {
-      siblings.prev = list[index - 1];
+      prev = list[index - 1];
     }
   }
-  return siblings;
+  return { prev, next }
 }
 
 export function getParents(path, routes) {
