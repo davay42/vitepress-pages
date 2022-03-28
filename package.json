@@ -37,7 +37,7 @@
     "dev": "vitepress dev",
     "build": "vitepress build",
     "lib": "tsup src/index.js src/browser.js --format esm,cjs",
-    "preview": "node test.js"
+    "publish": "pnpm run lib; pnpm version patch; pnpm publish"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
