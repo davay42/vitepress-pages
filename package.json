@@ -43,13 +43,10 @@
     "sharp": "^0.30.3"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.2.4",
     "tsup": "^5.12.1",
     "vite": "^2.8.6",
     "vitepress": "0.22.2",
-    "vite-plugin-md": "^0.12.4",
     "vite-plugin-pages": "^0.22.0",
-    "vite-plugin-pages-sitemap": "^1.1.11",
-    "vue": "^3.2.31"
+    "vite-plugin-pages-sitemap": "^1.1.11"
   }
 }

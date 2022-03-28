@@ -1,11 +1,13 @@
 <script setup>
 import { pages, routes } from './'
 import { useRoute } from 'vitepress'
-import { getPage, trailSlash } from '../../src/browser'
+import { getPage, getParents, getSiblings, trailSlash } from '../../src/browser'
 
 const route = useRoute()
 
-const { page, siblings, parents } = getPage(route.path, routes)
+const page = getPage(route.path, routes)
+const parents = getParents(route.path, routes)
+const siblings = getSiblings(route.path, routes)
 </script>
 
 <template >
