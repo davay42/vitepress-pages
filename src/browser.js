@@ -26,13 +26,7 @@ export function getPages(routes) {
 }
 
 export function getPage(path, routes) {
-  const page = routes.find((p) => trailSlash(p.path) == path);
-  if (!pages) {
-    pages = getPages(routes);
-  }
-  const siblings = getSiblings(path, pages);
-  const parents = getParents(path, routes);
-  return { page, pages, siblings, parents };
+  return routes.find((p) => trailSlash(p.path) == path);
 }
 
 export function getSiblings(path, routes) {
