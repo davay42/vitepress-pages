@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import sharp from "sharp";
+import { normalize } from "./browser";
 
 export function extendRoutes({
   graymatter = {
@@ -18,8 +19,11 @@ export function extendRoutes({
     const pageDir = path.resolve(route.component.substring(1));
     const frontmatter = matter.read(pageDir, graymatter);
     const { data, excerpt, content } = frontmatter;
+    const { name, path: routePath, component } = route
     const page = {
-      ...route,
+      name,
+      path: normalize(routePath),
+      component,
       ...data,
       excerpt,
       empty: !content,
