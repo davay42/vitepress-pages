@@ -31,12 +31,13 @@ export function getPage(path, routes) {
 }
 
 export function getSiblings(path, routes) {
-  let prev, next
+  let prev, next, index, total
   const folder = normalize(path.split("/").slice(0, -2).join("/"));
   const pages = getPages(routes)
   const list = pages[folder];
   if (list) {
-    const index = list.findIndex((page) => normalize(page.path) == path);
+    total = list.length
+    index = list.findIndex((page) => normalize(page.path) == path);
     if (index >= 0 && index <= list.length) {
       next = list[index + 1];
     }
@@ -44,7 +45,7 @@ export function getSiblings(path, routes) {
       prev = list[index - 1];
     }
   }
-  return { prev, next }
+  return { prev, next, index, total }
 }
 
 export function getParents(path, routes) {
