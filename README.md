@@ -69,7 +69,7 @@ import {
   getPages,
   getParents,
   getSiblings,
-  trailSlash, // Vitepress omits ending slashes, you may need to add it for consistent paths
+  normalize, // Vitepress omits ending slashes, you may need to add it for consistent paths
 } from "vitepress-pages/browser";
 
 import routes from "~pages"; // all routes list from `vite-plugin-pages`

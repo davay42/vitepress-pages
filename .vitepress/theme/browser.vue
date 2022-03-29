@@ -1,7 +1,7 @@
 <script setup>
 import { pages, routes } from './'
 import { useRoute } from 'vitepress'
-import { getPage, getParents, getSiblings, trailSlash } from '../../src/browser'
+import { getPage, getParents, getSiblings, normalize } from '../../src/browser'
 
 const route = useRoute()
 
@@ -14,7 +14,7 @@ const siblings = getSiblings(route.path, routes)
   <section>
     <h2>All routes</h2>
     <div class="list">
-      <a :href="trailSlash(p.path)" v-for="p in routes" :key="p">{{ p }}</a>
+      <a :href="normalize(p.path)" v-for="p in routes" :key="p">{{ p }}</a>
     </div>
 
     <h2>Page</h2>

@@ -1,4 +1,4 @@
-export function trailSlash(url) {
+export function normalize(url) {
   return (url += url.endsWith("/") ? "" : "/");
 }
 
@@ -9,7 +9,7 @@ export function getPages(routes) {
   pages = {}
   for (let route of routes) {
     const split = route.path.split("/").slice(0, -1).join("/");
-    const folder = trailSlash(split);
+    const folder = normalize(split);
     pages[folder] = pages[folder] || [];
     pages[folder].push(route);
   }
@@ -26,16 +26,16 @@ export function getPages(routes) {
 }
 
 export function getPage(path, routes) {
-  return routes.find((p) => trailSlash(p.path) == path);
+  return routes.find((p) => normalize(p.path) == path);
 }
 
 export function getSiblings(path, routes) {
   let prev, next
-  const folder = trailSlash(path.split("/").slice(0, -2).join("/"));
+  const folder = normalize(path.split("/").slice(0, -2).join("/"));
   const pages = getPages(routes)
   const list = pages[folder];
   if (list) {
-    const index = list.findIndex((page) => trailSlash(page.path) == path);
+    const index = list.findIndex((page) => normalize(page.path) == path);
     if (index >= 0 && index <= list.length) {
       next = list[index + 1];
     }
