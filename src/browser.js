@@ -8,7 +8,7 @@ export function getPages(routes) {
   if (pages) return pages
   pages = {}
   for (let route of routes) {
-    const split = route.path.split("/").slice(0, -1).join("/");
+    const split = route.path.split("/").slice(0, -2).join("/");
     const folder = normalize(split);
     pages[folder] = pages[folder] || [];
     pages[folder].push(route);

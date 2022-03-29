@@ -16,7 +16,8 @@ const siblings = getSiblings(route.path, routes)
     <div class="list">
       <a :href="normalize(p.path)" v-for="p in routes" :key="p">{{ p }}</a>
     </div>
-
+    <h2>Pages</h2>
+    <p>{{ pages }}</p>
     <h2>Page</h2>
     <p>{{ page }}</p>
     <h3>Parents</h3>
