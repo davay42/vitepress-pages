@@ -54,7 +54,6 @@ export function getParents(path, routes) {
     const link = "/" + url.slice(0, -i).join("/") + "/";
     parents.push(
       routes.find((r) => {
-        console.log(r.path, link)
         return r.path == link;
       })
     );
