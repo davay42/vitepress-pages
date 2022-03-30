@@ -102,7 +102,7 @@ export { routes, pages, usePage, useParents, useSiblings };
 
 ### Implementing
 
-The last step is to create some components to display all the data. You can import any of the functions and use them with current (or another) route path.
+The last step is to create some [Vue 3](https://vuejs.org) components to display all the data. You can import any of the functions and use them with current (or another) route path.
 
 `<script setup>`
 
@@ -123,17 +123,15 @@ const parents = computed(() => useParents(route.path));
 const children = computed(() => pages[route.path]);
 ```
 
-`Vue template`
+`<template>`
 
 Be creative!
 
 ```html
-<template>
-  <section v-for="page in pages" :key="page">
-    <img :src="page.cover" />
-    <h2>{{ page.title }}</h2>
-    <p>{{ page.subtitle }}</p>
-    <h3 v-for="child in pages[page.path]" :key="child">{{ child.title }}</h3>
-  </section>
-</template>
+<section v-for="page in pages" :key="page">
+  <img :src="page.cover" />
+  <h2>{{ page.title }}</h2>
+  <p>{{ page.subtitle }}</p>
+  <h3 v-for="child in pages[page.path]" :key="child">{{ child.title }}</h3>
+</section>
 ```
