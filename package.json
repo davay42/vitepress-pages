@@ -48,5 +48,8 @@
     "vitepress": "0.22.2",
     "vite-plugin-pages": "^0.22.0",
     "vite-plugin-pages-sitemap": "^1.1.11"
+  },
+  "peerDependencies": {
+    "vite-plugin-pages": "^0.22.0"
   }
 }

@@ -30,7 +30,8 @@ Tech used:
 ## Installation
 
 ```bash
-pnpm i vitepress-pages
+npm i -D vite-plugin-pages vite-plugin-pages-sitemap
+npm i vitepress-pages
 ```
 
 ## Configuration
