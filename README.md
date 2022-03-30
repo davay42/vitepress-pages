@@ -14,10 +14,10 @@
 
 ### In browser
 
-- Gives access to the routes array
+- Gives you access to the routes array
 - Recreates hierarchical folder tree structure for navigation and search
 - Generates parents list for any given page
-- Finds previous and next siblings along with the index of current page and the total number of it's siblings
+- Finds previous and next siblings along with the index of current page in the list and the total number of pages in it
 
 Tech used:
 
@@ -76,7 +76,7 @@ You can customize the `extendRoutes` call with these options:
 }
 ```
 
-## Using
+## Usage
 
 You can import the list of all routes from `~pages` anywhere in the app. We provide basic of functions at `vitepress-pages/browser` to navigate them easily.
 
@@ -100,7 +100,7 @@ const useSiblings = (path) => getSiblings(path, routes); // { prev, next, index,
 export { routes, pages, usePage, useParents, useSiblings };
 ```
 
-### Implementing
+## Implementation
 
 The last step is to create some [Vue 3](https://vuejs.org) components to display all the data. You can import any of the functions and use them with current (or another) route path.
 
