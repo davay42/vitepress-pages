@@ -1,10 +1,30 @@
-Ever thought about using [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages) with [Vitepress](https://vitepress.vuejs.org/)?
+### File system based routing for [`vitepress`](https://vitepress.vuejs.org/) digital gardening
 
-Automatically generated SSR routes directly from `md` pages. `vitepress-pages` is an extension for `vite-plugin-pages` to parse all the folders, add the frontmatter to the pages array and even treat some special media fields as images to optimize and utilize in your theme.
+[`vitepress-pages`](https://www.npmjs.com/package/vitepress-pages) is a [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages) extension for automatic routes generation out of any `markdown` data collection.
 
-We use:
+## What does it do?
+
+### In Node
+
+- Scans your project folder structure
+- Traverses all `index.md` files
+- Parses frontmatter
+- Optimizes media files
+- Creates client-side interface for us to use in our
+
+### In browser
+
+- Gives access to the routes array
+- Recreates hierarchical folder tree structure for navigation and search
+- Generates parents list for any given page
+- Finds previous and next siblings along with the index of current page and the total number of it's siblings
+
+Tech used:
 
 - [graymatter](https://github.com/jonschlinkert/gray-matter) for parsing markdown files. We copy all the frontmatter, generate excerpt and have a flag for empty content. We don't load all the file contents in order to keep the list light enough even for quite big sites.
+
+  You can force load contents with a flag `type: block` put into your `index.md` frontmatter
+
 - [sharp](https://github.com/lovell/sharp) for image resizing.
 
 ## Installation
@@ -47,7 +67,7 @@ You can customize the `extendRoutes` call with these options:
           excerpt: true,
           excerpt_separator: "<!-- excerpt -->",
         },
-        mediaFolder: "media_files", // a folder name inside your /public/ to put all the resized images to
+        mediaFolder: "media_files", // the name of a folder inside your /public/ to put all the optimized images to
         mediaTypes: { // what frontmatter fields should be considered as images and how should sharp deal with them
           icon: { width: 300, height: 300, fit: "inside" },
           cover: { size: 1200, height: 800, fit: "inside" },
@@ -56,26 +76,64 @@ You can customize the `extendRoutes` call with these options:
 }
 ```
 
-## Usage
+## Using
 
 You can import the list of all routes from `~pages` anywhere in the app. We provide basic of functions at `vitepress-pages/browser` to navigate them easily.
 
-```js
-import { useRoute } from "vitepress";
-const route = useRoute(); // current page route
+`composables/pages.js`
 
+```js
+import routes from "~pages"; // all routes list from `vite-plugin-pages`
 import {
-  getPage,
   getPages,
+  getPage,
   getParents,
   getSiblings,
-  normalize, // Vitepress omits ending slashes, you may need to add it for consistent paths
 } from "vitepress-pages/browser";
 
-import routes from "~pages"; // all routes list from `vite-plugin-pages`
-
 const pages = getPages(routes); // hierarchical structure of the pages
-const page = getPage(route.path, routes); // current page info
-const siblings = getSiblings(route.path, routes); // { prev, next }
-const parents = getParents(route.path, routes); // An array of parents starting from the root
+
+const usePage = (path) => getPage(path, routes); // current page data object
+const useParents = (path) => getParents(path, routes); // An array of parent routes starting from the root
+const useSiblings = (path) => getSiblings(path, routes); // { prev, next, index, total }
+
+export { routes, pages, usePage, useParents, useSiblings };
+```
+
+### Implementing
+
+The last step is to create some components to display all the data. You can import any of the functions and use them with current (or another) route path.
+
+`<script setup>`
+
+```js
+import {
+  pages,
+  usePage,
+  useSiblings,
+  useParents,
+} from "@theme/composables/pages";
+
+import { useRoute } from "vitepress";
+const route = useRoute();
+
+const page = computed(() => usePage(route.paths));
+const siblings = computed(() => useSiblings(route.path));
+const parents = computed(() => useParents(route.path));
+const children = computed(() => pages[route.path]);
+```
+
+`Vue template`
+
+Be creative!
+
+```html
+<template>
+  <section v-for="page in pages" :key="page">
+    <img :src="page.cover" />
+    <h2>{{ page.title }}</h2>
+    <p>{{ page.subtitle }}</p>
+    <h3 v-for="child in pages[page.path]" :key="child">{{ child.title }}</h3>
+  </section>
+</template>
 ```
