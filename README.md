@@ -85,8 +85,8 @@ You can import the list of all routes from `~pages` anywhere in the app. We prov
 ```js
 import routes from "~pages"; // all routes list from `vite-plugin-pages`
 import {
-  getPages,
   getPage,
+  getPages,
   getParents,
   getSiblings,
 } from "vitepress-pages/browser";
@@ -100,7 +100,7 @@ const useSiblings = (path) => getSiblings(path, routes); // { prev, next, index,
 export { routes, pages, usePage, useParents, useSiblings };
 ```
 
-## Implementation
+## Display
 
 The last step is to create some [Vue 3](https://vuejs.org) components to display all the data. You can import any of the functions and use them with current (or another) route path.
 
