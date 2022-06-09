@@ -118,7 +118,7 @@ import {
 import { useRoute } from "vitepress";
 const route = useRoute();
 
-const page = computed(() => usePage(route.paths));
+const page = computed(() => usePage(route.path));
 const siblings = computed(() => useSiblings(route.path));
 const parents = computed(() => useParents(route.path));
 const children = computed(() => pages[route.path]);
