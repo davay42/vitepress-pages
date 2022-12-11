@@ -22,14 +22,15 @@
 	},
 	"license": "MIT",
 	"author": "davay42 <davay@defucc.me>",
+	"type": "module",
 	"exports": {
 		".": {
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.js"
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
 		},
 		"./browser": {
-			"import": "./dist/browser.mjs",
-			"require": "./dist/browser.js"
+			"import": "./dist/browser.js",
+			"require": "./dist/browser.cjs"
 		}
 	},
 	"main": "./dist/index.js",
@@ -43,13 +44,13 @@
 		"sharp": "^0.31.2"
 	},
 	"devDependencies": {
-		"tsup": "^6.4.0",
-		"vite": "^3.2.3",
+		"tsup": "^6.5.0",
+		"vite": "^4.0.0",
 		"vite-plugin-pages": "^0.27.1",
 		"vite-plugin-pages-sitemap": "^1.4.0",
-		"vitepress": "1.0.0-alpha.28"
+		"vitepress": "1.0.0-alpha.31"
 	},
 	"peerDependencies": {
-		"vite-plugin-pages": "^0.22.0"
+		"vite-plugin-pages": "^0.27.1"
 	}
 }

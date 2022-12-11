@@ -24,7 +24,7 @@ export default defineConfig({
         exclude: ['**/node_modules/**/*.*', '**/!(index).md'],
         extensions: ['md'],
         ...extendRoutes(),
-        onRoutesGenerated: routes => (generateSitemap({ routes, hostname: 'http://localhost/' })),
+        // onRoutesGenerated: routes => (generateSitemap({ routes, hostname: 'http://localhost/' })),
       }),
     ],
   },
