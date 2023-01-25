@@ -31,6 +31,7 @@ export function extendRoutes({
       ...data,
       excerpt,
       empty: !content,
+      content: ''
     };
 
     if (data.type == "block") {

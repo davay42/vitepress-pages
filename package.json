@@ -37,7 +37,7 @@
 	"scripts": {
 		"build": "vitepress build",
 		"dev": "vitepress dev",
-		"lib": "tsup src/index.js src/browser.js --format esm,cjs && tsc"
+		"lib": "tsup"
 	},
 	"dependencies": {
 		"gray-matter": "^4.0.3",
@@ -49,9 +49,25 @@
 		"vite-plugin-pages": "^0.28.0",
 		"vite-plugin-pages-sitemap": "^1.4.5",
 		"vitepress": "1.0.0-alpha.40",
-		"app-root-path": "^3.1.0"
+		"app-root-path": "^3.1.0",
+		"typescript": "4.9.4",
+		"@types/node": "^18.11.18"
 	},
 	"peerDependencies": {
 		"vite-plugin-pages": "^0.28.0"
+	},
+	"tsup": {
+		"entry": [
+			"src/index.ts",
+			"src/browser.ts"
+		],
+		"format": [
+			"esm",
+			"cjs"
+		],
+		"splitting": false,
+		"sourcemap": true,
+		"clean": true,
+		"dts": true
 	}
 }
