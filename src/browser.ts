@@ -1,10 +1,10 @@
-export function normalize(url) {
-  return (url += url.endsWith("/") ? "" : "/");
-}
+import type { Route, Pages } from './types'
 
-export let pages
 
-export function getPages(routes) {
+
+export let pages: Pages
+
+export function getPages(routes: Route[]) {
   if (pages) return pages
   pages = {}
   for (let route of routes) {
@@ -26,12 +26,12 @@ export function getPages(routes) {
   return pages;
 }
 
-export function getPage(path, routes) {
+export function getPage(path: string, routes: Route[]): Route {
   return routes.find((p) => normalize(p.path) == path);
 }
 
-export function getSiblings(path, routes) {
-  let prev, next, index, total
+export function getSiblings(path: string, routes: Route[]) {
+  let prev: Route, next: Route, index: number, total: number
   const folder = normalize(path.split("/").slice(0, -2).join("/"));
   const pages = getPages(routes)
   const list = pages[folder];
@@ -48,7 +48,7 @@ export function getSiblings(path, routes) {
   return { prev, next, index, total }
 }
 
-export function getParents(path, routes) {
+export function getParents(path: string, routes: Route[]): Route[] {
   const parents = [];
   const url = path.split("/").filter(Boolean);
   for (let i in url) {
@@ -60,4 +60,9 @@ export function getParents(path, routes) {
     );
   }
   return parents.filter(Boolean).reverse();
+}
+
+
+export function normalize(url: string) {
+  return (url += url.endsWith("/") ? "" : "/");
 }

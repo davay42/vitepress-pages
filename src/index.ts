@@ -4,6 +4,7 @@ import matter from "gray-matter";
 import sharp from "sharp";
 import { normalize } from "./browser";
 import * as url from 'url';
+import type { Route, Pages } from './types'
 
 
 export function extendRoutes({
@@ -19,19 +20,20 @@ export function extendRoutes({
     cover: { size: 1200, height: 800, fit: "inside" },
   },
 } = {}) {
-  function extendRoute(route) {
+  function extendRoute(route: Route): Route {
     const pageDir = path.resolve(route.component.substring(1));
     const frontmatter = matter.read(pageDir, graymatter);
     const { data, excerpt, content } = frontmatter;
     const { name, path: routePath, component } = route
     const page = {
+      ...route,
       name,
       path: normalize(routePath),
       component,
       ...data,
       excerpt,
       empty: !content,
-      content: ''
+      content: '',
     };
 
     if (data.type == "block") {
