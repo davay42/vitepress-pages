@@ -3,9 +3,11 @@ import * as path from "path";
 import matter from "gray-matter";
 import sharp from "sharp";
 import { normalize } from "./browser";
-import appRoot from 'app-root-path'
+import * as url from 'url';
+
 
 export function extendRoutes({
+  root = url.fileURLToPath(new URL('..', import.meta.url)),
   graymatter = {
     excerpt: true,
     excerpt_separator: "<!-- excerpt -->",
@@ -38,7 +40,8 @@ export function extendRoutes({
         let file = data[media];
         const filePath = path.join(route.path, file);
         const fileName = filePath.split("/").filter(Boolean).join("-");
-        const publicPath = path.resolve(appRoot.path, "public", mediaFolder, media);
+
+        const publicPath = path.resolve(root, "public", mediaFolder, media);
         const url = path.join("/", mediaFolder, media, fileName);
 
         page[media] = url;
