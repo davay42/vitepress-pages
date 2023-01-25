@@ -8,6 +8,7 @@ import * as url from 'url';
 
 export function extendRoutes({
   root = url.fileURLToPath(new URL('..', import.meta.url)),
+  publicFolder = 'public',
   graymatter = {
     excerpt: true,
     excerpt_separator: "<!-- excerpt -->",
@@ -41,7 +42,7 @@ export function extendRoutes({
         const filePath = path.join(route.path, file);
         const fileName = filePath.split("/").filter(Boolean).join("-");
 
-        const publicPath = path.resolve(root, "public", mediaFolder, media);
+        const publicPath = path.resolve(root, publicFolder, mediaFolder, media);
         const url = path.join("/", mediaFolder, media, fileName);
 
         page[media] = url;
