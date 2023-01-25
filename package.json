@@ -37,7 +37,8 @@
 	"scripts": {
 		"build": "vitepress build",
 		"dev": "vitepress dev",
-		"lib": "tsup src/index.js src/browser.js --format esm,cjs"
+		"lib": "tsup src/index.js src/browser.js --format esm,cjs && tsc",
+		"publish": "pnpm run lib && pnpm publish"
 	},
 	"dependencies": {
 		"gray-matter": "^4.0.3",
