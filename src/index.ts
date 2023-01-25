@@ -50,10 +50,11 @@ export function extendRoutes({
 
         page[media] = url;
 
-        if (!fs.existsSync(publicPath)) {
-          fs.mkdirSync(publicPath, {
-            recursive: true,
-          });
+        if (!fs.existsSync(path.dirname(path.join(publicPath, fileName)))) {
+          fs.mkdirSync(
+            path.dirname(path.join(publicPath, fileName)),
+            { recursive: true }
+          );
         }
 
         if (filePath.endsWith(".svg")) {
