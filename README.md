@@ -45,25 +45,28 @@ import { extendRoutes } from "vitepress-pages";
 import generateSitemap from "vite-plugin-pages-sitemap"; //optional;
 
 export default defineConfig({
-  plugins: [
-    Pages({
-      dirs: [{ dir: ".", baseRoute: "." }],
-      extensions: ["md"],
-      ...extendRoutes(),
-      onRoutesGenerated: (routes) =>
-        generateSitemap({ routes, hostname: "http://localhost/" }), //provide a hostname and generate a `sitemap.xml` in the public folder
-    }),
-  ],
+	plugins: [
+		Pages({
+			dirs: [{ dir: ".", baseRoute: "." }],
+			extensions: ["md"],
+			...extendRoutes(),
+			onRoutesGenerated: (routes) =>
+				generateSitemap({ routes, hostname: "http://localhost/" }), //provide a hostname and generate a `sitemap.xml` in the public folder
+		}),
+	],
 });
 ```
 
 ## Options
 
-You can customize the `extendRoutes` call with these options:
+You can customize the `extendRoutes` call with these options.
 
 ```js
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 {
 ...extendRoutes({ //these are default options
+        root: path.dirname(fileURLToPath(import.meta.url)),
         graymatter: { // graymatter options
           excerpt: true,
           excerpt_separator: "<!-- excerpt -->",
@@ -86,10 +89,10 @@ You can import the list of all routes from `~pages` anywhere in the app. We prov
 ```js
 import routes from "~pages"; // all routes list from `vite-plugin-pages`
 import {
-  getPage,
-  getPages,
-  getParents,
-  getSiblings,
+	getPage,
+	getPages,
+	getParents,
+	getSiblings,
 } from "vitepress-pages/browser";
 
 const pages = getPages(routes); // hierarchical structure of the pages
@@ -109,10 +112,10 @@ The last step is to create some [Vue 3](https://vuejs.org) components to display
 
 ```js
 import {
-  pages,
-  usePage,
-  useSiblings,
-  useParents,
+	pages,
+	usePage,
+	useSiblings,
+	useParents,
 } from "@theme/composables/pages";
 
 import { useRoute } from "vitepress";
@@ -130,9 +133,9 @@ Be creative!
 
 ```html
 <section v-for="page in pages" :key="page">
-  <img :src="page.cover" />
-  <h2>{{ page.title }}</h2>
-  <p>{{ page.subtitle }}</p>
-  <h3 v-for="child in pages[page.path]" :key="child">{{ child.title }}</h3>
+	<img :src="page.cover" />
+	<h2>{{ page.title }}</h2>
+	<p>{{ page.subtitle }}</p>
+	<h3 v-for="child in pages[page.path]" :key="child">{{ child.title }}</h3>
 </section>
 ```
