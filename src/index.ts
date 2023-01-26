@@ -44,15 +44,19 @@ export function extendRoutes({
         let file = data[media];
         const filePath = path.join(route.path, file);
         const fileName = filePath.split("/").filter(Boolean).join("-");
-
         const publicPath = path.resolve(root, publicFolder, mediaFolder, media);
+        const fullPath = path.join(publicPath, fileName)
         const url = path.join("/", mediaFolder, media, fileName);
 
         page[media] = url;
 
-        if (!fs.existsSync(path.dirname(path.join(publicPath, fileName)))) {
+        if (fs.existsSync(fullPath)) {
+          continue
+        }
+
+        if (!fs.existsSync(path.dirname(fullPath))) {
           fs.mkdirSync(
-            path.dirname(path.join(publicPath, fileName)),
+            path.dirname(fullPath),
             { recursive: true }
           );
         }
@@ -60,7 +64,7 @@ export function extendRoutes({
         if (filePath.endsWith(".svg")) {
           fs.copyFileSync(
             path.resolve(filePath.substring(1)),
-            path.join(publicPath, fileName)
+            fullPath
           );
         } else {
           sharp(path.resolve(filePath.substring(1)))
@@ -69,7 +73,7 @@ export function extendRoutes({
               height: media == "icon" ? 300 : 1200,
               fit: "inside",
             })
-            .toFile(path.join(publicPath, fileName), (err, info) => {
+            .toFile(fullPath, (err, info) => {
               if (err) {
                 console.log(err, filePath, info);
               }
