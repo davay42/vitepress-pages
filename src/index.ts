@@ -21,7 +21,7 @@ export function extendRoutes({
   },
 } = {}) {
   function extendRoute(route: Route): Route {
-    const pageDir = path.resolve(route.component.substring(1));
+    const pageDir = path.resolve(root, route.component.substring(1));
     const frontmatter = matter.read(pageDir, graymatter);
     const { data, excerpt, content } = frontmatter;
     const { name, path: routePath, component } = route
