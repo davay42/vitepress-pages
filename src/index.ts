@@ -63,11 +63,11 @@ export function extendRoutes({
 
         if (filePath.endsWith(".svg")) {
           fs.copyFileSync(
-            path.resolve(filePath.substring(1)),
+            path.resolve(root, filePath.substring(1)),
             fullPath
           );
         } else {
-          sharp(path.resolve(filePath.substring(1)))
+          sharp(path.resolve(root, filePath.substring(1)))
             .resize({
               width: media == "icon" ? 300 : 1200,
               height: media == "icon" ? 300 : 1200,

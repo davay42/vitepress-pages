@@ -40,6 +40,9 @@
 	"scripts": {
 		"build": "vitepress build",
 		"dev": "vitepress dev",
+		"preview": "vitepress serve",
+		"build-nested": "vitepress build nested",
+		"dev-nested": "vitepress dev nested",
 		"lib": "tsup"
 	},
 	"dependencies": {

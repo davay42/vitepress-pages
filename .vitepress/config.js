@@ -5,7 +5,7 @@ import generateSitemap from 'vite-plugin-pages-sitemap'
 import { extendRoutes } from "../src";
 
 export default defineConfig({
-  base: './',
+  base: '',
   title: 'Vitepress pages',
   description: 'Extend your page data and parse images',
   lang: 'en',
