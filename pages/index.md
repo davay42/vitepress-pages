@@ -1,6 +1,6 @@
 ---
 title: Pages root
-cover: ed-robertson.jpg
+cover: 4.jpg
 icon: circleo.svg
 ---
 

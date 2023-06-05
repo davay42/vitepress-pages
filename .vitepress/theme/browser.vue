@@ -3,6 +3,8 @@ import { pages, routes } from './'
 import { useRoute } from 'vitepress'
 import { getPage, getParents, getSiblings, normalize } from '../../src/browser'
 
+import PageCard from './PageCard.vue'
+
 const route = useRoute()
 
 const page = getPage(route.path, routes)
@@ -12,12 +14,10 @@ const siblings = getSiblings(route.path, routes)
 
 <template >
   <section>
-    <h2>All routes</h2>
-    <div class="list">
-      <a :href="normalize(p.path)" v-for="p in routes" :key="p">{{ p }}</a>
-    </div>
     <h2>Pages</h2>
-    <p>{{ pages }}</p>
+    <div class="flex flex-wrap gap-2">
+      <page-card v-for="page in pages" :key="page" :page="page[0]"></page-card>
+    </div>
     <h2>Page</h2>
     <p>{{ page }}</p>
     <h3>Parents</h3>
