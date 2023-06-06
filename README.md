@@ -15,17 +15,12 @@ You can use the `usePages`, `useChildren`, `useParents`, `useSiblings` to get re
 
 Tech used:
 
-- [graymatter](https://github.com/jonschlinkert/gray-matter) for parsing markdown files. We copy all the frontmatter, generate excerpt and have a flag for empty content. We don't load all the file contents in order to keep the list light enough even for quite big sites.
-
-  You can force load contents with a flag `type: block` put into your `index.md` frontmatter
-
 - [sharp](https://github.com/lovell/sharp) for image resizing.
 
 ## Installation
 
 ```bash
-npm i -D vite-plugin-pages vite-plugin-pages-sitemap
-npm i vitepress-pages
+pnpm i vitepress-pages
 ```
 
 ## Configuration

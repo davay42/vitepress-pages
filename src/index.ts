@@ -5,23 +5,18 @@ import sharp from "sharp";
 
 import { cleanLink } from './browser';
 
-type options = {}
-
-
 export function transformPages({
-  rootFolder = '../',
+  root = url.fileURLToPath(new URL('../', import.meta.url)),
   publicFolder = "public",
   mediaFolder = 'media_files',
   mediaTypes = { cover: { size: 1200, height: 1000, fit: "inside" } }
 } = {
-    rootFolder: '../',
+    root: url.fileURLToPath(new URL('../', import.meta.url)),
     publicFolder: "public",
     mediaFolder: 'media_files',
     mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
   }) {
   return async function transform(routes) {
-
-    const root = url.fileURLToPath(new URL(rootFolder, import.meta.url))
 
     for (let r in routes) {
       const page = routes[r]
