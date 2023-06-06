@@ -1,8 +1,10 @@
-### File system based routing for [`vitepress`](https://vitepress.vuejs.org/) digital gardening
+### File system based routing for [`Vitepress`](https://vitepress.vuejs.org/) digital gardening
 
 ![](https://img.shields.io/npm/v/vitepress-pages?color=%23eee&style=for-the-badge)
 
-A Vitepress extension for automatic navigation generation given any `markdown` data collection.
+A Vitepress extension for automatic navigation generation for any `markdown` data collection.
+
+> This is `vitepress-pages` v.2.0 documentation, which is suitable for Vitepress v.1.0-beta.1 and higher. For v.1.0 docs go https://www.npmjs.com/package/vitepress-pages/v/1.0.5
 
 ## What does it do?
 
@@ -40,7 +42,7 @@ pnpm i vitepress-pages
 import { createContentLoader } from 'vitepress'
 
 // import the main transformer factory
-import  transformPages  from 'vitepress-pages'
+import transformPages from 'vitepress-pages'
 
 // export the content data-loader for your markdown files folder
 export default createContentLoader('./**/*/*.md', {
