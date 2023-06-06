@@ -23,6 +23,10 @@ export function useParents(route: Route, routes) {
   return computed(() => getParents(route.path, routes))
 }
 
+export function useSiblings(route: Route, routes) {
+  return computed(() => getSiblings(route.path, routes))
+}
+
 export function getPages(routes) {
   let pageList = {}
   for (let route of routes) {
@@ -44,7 +48,7 @@ export function getPages(routes) {
 }
 
 
-export function getParents(path, routes) {
+export function getParents(path: string, routes) {
   path = cleanLink(path)
   const parents = [];
   const url = path.split("/").filter(Boolean);
@@ -60,7 +64,7 @@ export function getParents(path, routes) {
 }
 
 
-export function getSiblings(path, routes) {
+export function getSiblings(path: string, routes) {
   let prev, next, index, total
   const folder = normalize(path.split("/").slice(0, -2).join("/"));
   const list = getPages(routes)[folder]
@@ -79,10 +83,10 @@ export function getSiblings(path, routes) {
 }
 
 
-export function normalize(url) {
+export function normalize(url: string) {
   return (url += url.endsWith("/") ? "" : "/");
 }
 
-export function cleanLink(url) {
-  return url.replace(/\/[^/]*\.(html)$/, '/')
+export function cleanLink(url: string) {
+  return (url || '').replace(/\/[^/]*\.(html)$/, '/')
 }

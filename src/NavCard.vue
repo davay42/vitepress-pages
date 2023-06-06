@@ -1,11 +1,15 @@
 <script setup>
+import { cleanLink } from './browser';
+
+
+
 const props = defineProps({
   page: { type: Object, default: () => ({}) }
 })
 </script>
 
 <template>
-  <a v-if="page" :href="page?.url" :style="{ backgroundImage: `url(${page?.frontmatter?.cover})` }">
+  <a v-if="page" :href="cleanLink(page?.url || '')" :style="{ backgroundImage: `url(${page?.frontmatter?.cover})` }">
     <div>
       <slot></slot>
       <h3>{{ page?.frontmatter?.title }}</h3>

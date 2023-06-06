@@ -1,6 +1,6 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
-import { usePages } from '../../src/browser';
+import { usePages, cleanLink } from '../../src/browser';
 import { useRoute, useData } from 'vitepress'
 import { data } from '../../pages.data.js'
 import NavCard from '../../src/NavCard.vue';
@@ -17,7 +17,7 @@ const { children, parents, siblings } = usePages(useRoute(), data)
 
     <template #nav-bar-title-after>
       <nav id="parents" class="grid">
-        <a v-for="parent in parents.slice(0, -1)" :key="parent.url" class="parent" :href="parent.url">
+        <a v-for="parent in parents.slice(0, -1)" :key="parent.url" class="parent" :href="cleanLink(parent.url)">
           / {{ parent.frontmatter?.title }}
         </a>
       </nav>

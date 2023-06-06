@@ -1,23 +1,17 @@
 ### File system based routing for [`vitepress`](https://vitepress.vuejs.org/) digital gardening
 
-[`vitepress-pages`](https://www.npmjs.com/package/vitepress-pages) is a [`vite-plugin-pages`](https://github.com/hannoeru/vite-plugin-pages) extension for automatic routes generation out of any `markdown` data collection.
+[`vitepress-pages`](https://www.npmjs.com/package/vitepress-pages) is a Vitepress extension for automatic routes generation out of any `markdown` data collection.
 
 ## What does it do?
 
-### In Node
+### In Node.JS
 
-- Scans your project folder structure
-- Traverses all `index.md` files
-- Parses frontmatter
-- Optimizes media files
-- Creates client-side interface for us to use in our
+You first get a list of all markdown pages via the `createContentLoader` in a `pages.data.js` file and use the provided `transformPages()` function to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder` folder.
 
 ### In browser
 
-- Gives you access to the routes array
-- Recreates hierarchical folder tree structure for navigation and search
-- Generates parents list for any given page
-- Finds previous and next siblings along with the index of current page in the list and the total number of pages in it
+You can use the `usePages`, `useChildren`, `useParents`, `useSiblings` to get reactive `computed` values to build your own navigation interfaces.
+
 
 Tech used:
 
