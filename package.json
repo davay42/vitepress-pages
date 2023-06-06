@@ -35,8 +35,7 @@
 		}
 	},
 	"files": [
-		"dist",
-		"src"
+		"dist"
 	],
 	"main": "./dist/server.js",
 	"types": "./dist/client.d.ts",
@@ -67,7 +66,7 @@
 			"esm"
 		],
 		"splitting": false,
-		"sourcemap": true,
+		"sourcemap": false,
 		"clean": true,
 		"dts": true
 	}

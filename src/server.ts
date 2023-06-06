@@ -5,17 +5,19 @@ import sharp from "sharp"
 
 import { cleanLink } from './client'
 
-export function transformPages({
-  root = url.fileURLToPath(new URL('../', import.meta.url)),
+export default function ({
+  root = new URL('../', import.meta.url),
   publicFolder = "public",
   mediaFolder = 'media_files',
   mediaTypes = { cover: { size: 1200, height: 1000, fit: "inside" } }
 } = {
-    root: url.fileURLToPath(new URL('../', import.meta.url)),
+    root: new URL('../', import.meta.url),
     publicFolder: "public",
     mediaFolder: 'media_files',
     mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
   }) {
+
+  const appRoot = url.fileURLToPath(root)
 
   return async function transform(routes) {
 
@@ -28,7 +30,7 @@ export function transformPages({
           let file = data[media];
           const filePath = path.join(cleanLink(page.url), file);
           const fileName = filePath.split("/").filter(Boolean).join("-");
-          const publicPath = path.resolve(root, publicFolder, mediaFolder, media);
+          const publicPath = path.resolve(appRoot, publicFolder, mediaFolder, media);
           const fullPath = path.join(publicPath, fileName)
           const url = path.join("/", mediaFolder, media, fileName);
 
@@ -48,11 +50,11 @@ export function transformPages({
 
           if (filePath.endsWith(".svg")) {
             fs.copyFileSync(
-              path.resolve(root, filePath.substring(1)),
+              path.resolve(appRoot, filePath.substring(1)),
               fullPath
             );
           } else {
-            await sharp(path.resolve(root, filePath.substring(1)))
+            await sharp(path.resolve(appRoot, filePath.substring(1)))
               .resize({
                 width: mediaTypes[media].width,
                 height: mediaTypes[media].height,

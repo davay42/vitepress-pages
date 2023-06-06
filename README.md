@@ -40,9 +40,7 @@ pnpm i vitepress-pages
 import { createContentLoader } from 'vitepress'
 
 // import the main transformer factory
-import { transformPages } from 'vitepress-pages'
-
-import url from 'url'
+import  transformPages  from 'vitepress-pages'
 
 // export the content data-loader for your markdown files folder
 export default createContentLoader('./**/*/*.md', {
@@ -51,7 +49,7 @@ export default createContentLoader('./**/*/*.md', {
   transform: transformPages({
     
     //we need the root path to be precise about placing the media files
-    root: url.fileURLToPath(new URL('./', import.meta.url)),
+    root: new URL('./', import.meta.url),
     
     // what frontmatter fields to consider as images to be saved to public folder
     mediaTypes: {
@@ -70,7 +68,7 @@ You can customize the `transformPages` call with these options.
 transformPages({
 
   // Mandatory field
-  root: url.fileURLToPath(new URL('../', import.meta.url)),
+  root: new URL('../', import.meta.url),
   
   // Where are static files stored?
   publicFolder: "public",
