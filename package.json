@@ -27,6 +27,9 @@
 		".": {
 			"import": "./dist/server.js"
 		},
+		"./server": {
+			"import": "./dist/server.js"
+		},
 		"./client": {
 			"import": "./dist/client.js"
 		}
