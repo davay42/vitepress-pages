@@ -1,5 +1,5 @@
 <script setup>
-import { cleanLink } from './browser';
+import { cleanLink } from '../../src/browser';
 
 
 

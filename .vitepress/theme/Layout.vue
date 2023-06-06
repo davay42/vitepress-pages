@@ -3,7 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import { usePages, cleanLink } from '../../src/browser';
 import { useRoute, useData } from 'vitepress'
 import { data } from '../../pages.data.js'
-import NavCard from '../../src/NavCard.vue';
+import NavCard from './NavCard.vue';
 
 const { Layout } = DefaultTheme
 
@@ -35,7 +35,7 @@ const { children, parents, siblings } = usePages(useRoute(), data)
       </nav>
       <nav id="siblings" class="grid">
         <template v-for="sb in ['prev', 'next']" :key="sb">
-          <NavCard :page="siblings?.[sb]" class="sibling">
+          <NavCard v-if="siblings?.[sb]" :page="siblings?.[sb]" class="sibling">
           </NavCard>
         </template>
       </nav>

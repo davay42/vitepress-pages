@@ -1,8 +1,12 @@
 ### File system based routing for [`vitepress`](https://vitepress.vuejs.org/) digital gardening
 
-[`vitepress-pages`](https://www.npmjs.com/package/vitepress-pages) is a Vitepress extension for automatic routes generation out of any `markdown` data collection.
+![](https://img.shields.io/npm/v/vitepress-pages?color=%23eee&style=for-the-badge)
+
+A Vitepress extension for automatic navigation generation given any `markdown` data collection.
 
 ## What does it do?
+
+It helps you generate navigation data: page hierarchy, parents, siblings and children for any given page using Vitepress built-in functionality.
 
 ### In Node.JS
 
@@ -19,112 +23,149 @@ Tech used:
 
 ## Installation
 
+Add `vitepress-pages` as a dependency to your project (not a devDependency as we'll need `vitepress-pages/browser` functions on client too)
+
 ```bash
 pnpm i vitepress-pages
 ```
 
-## Configuration
+## How to use
 
-`vite.config.js`
+1. Put your `*.data.js` to the root folder of your digital garden.
+
+`pages.data.js`
 
 ```js
-import { defineConfig } from "vite";
-import Pages from "vite-plugin-pages";
-import { extendRoutes } from "vitepress-pages";
-import generateSitemap from "vite-plugin-pages-sitemap"; //optional;
+// We use the new Vitepress loaders feature https://vitepress.dev/guide/data-loading
+import { createContentLoader } from 'vitepress'
 
-export default defineConfig({
-	plugins: [
-		Pages({
-			dirs: [{ dir: ".", baseRoute: "." }],
-			extensions: ["md"],
-			...extendRoutes(),
-			onRoutesGenerated: (routes) =>
-				generateSitemap({ routes, hostname: "http://localhost/" }), //provide a hostname and generate a `sitemap.xml` in the public folder
-		}),
-	],
-});
+// import the main transformer factory
+import { transformPages } from 'vitepress-pages'
+
+import url from 'url'
+
+// export the content data-loader for your markdown files folder
+export default createContentLoader('./**/*/*.md', {
+  
+  //transform pages: optimize images
+  transform: transformPages({
+    
+    //we need the root path to be precise about placing the media files
+    root: url.fileURLToPath(new URL('./', import.meta.url)),
+    
+    // what frontmatter fields to consider as images to be saved to public folder
+    mediaTypes: {
+      cover: { size: 1200, height: 1000, fit: "inside" },
+    }
+
+  })
+})
 ```
 
 ## Options
 
-You can customize the `extendRoutes` call with these options.
+You can customize the `transformPages` call with these options.
 
 ```js
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-{
-...extendRoutes({ //these are default options
-        root: path.dirname(fileURLToPath(import.meta.url)),
-        graymatter: { // graymatter options
-          excerpt: true,
-          excerpt_separator: "<!-- excerpt -->",
-        },
-        mediaFolder: "media_files", // the name of a folder inside your /public/ to put all the optimized images to
-        mediaTypes: { // what frontmatter fields should be considered as images and how should sharp deal with them
-          icon: { width: 300, height: 300, fit: "inside" },
-          cover: { size: 1200, height: 800, fit: "inside" },
-        },
-      })
-}
+transformPages({
+
+  // Mandatory field
+  root: url.fileURLToPath(new URL('../', import.meta.url)),
+  
+  // Where are static files stored?
+  publicFolder: "public",
+  
+  // Where to put the optimized images?
+  mediaFolder: 'media_files',
+
+  // What fields in the frontmatter contain pictures to optimize. Usually 'cover' and/or 'icon'
+  mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
+})
 ```
 
 ## Usage
 
-You can import the list of all routes from `~pages` anywhere in the app. We provide basic of functions at `vitepress-pages/browser` to navigate them easily.
+2. You can use the `usePages()` function in your [Vitepress extended default theme layout](https://vitepress.dev/guide/extending-default-theme#extending-the-default-theme) to have all the navigation primitives you need: parents, siblings and children.
 
-`composables/pages.js`
+`.vitepress/theme/MyLayout.vue`
 
-```js
-import routes from "~pages"; // all routes list from `vite-plugin-pages`
-import {
-	getPage,
-	getPages,
-	getParents,
-	getSiblings,
-} from "vitepress-pages/browser";
+```vue
+<script setup>
 
-const pages = getPages(routes); // hierarchical structure of the pages
+// Default theme layout to extend
+import DefaultTheme from 'vitepress/theme'
+const { Layout } = DefaultTheme
 
-const usePage = (path) => getPage(path, routes); // current page data object
-const useParents = (path) => getParents(path, routes); // An array of parent routes starting from the root
-const useSiblings = (path) => getSiblings(path, routes); // { prev, next, index, total }
+// Package functions to use
+import { usePages, cleanLink } from 'vitepress-pages/browser';
 
-export { routes, pages, usePage, useParents, useSiblings };
+// The way to react to route changes
+import { useRoute } from 'vitepress'
+
+// Build-time data-loader
+import { data } from '../../pages.data.js'
+
+// Component to display pages in a list
+import NavCard from './NavCard.vue';
+
+// Composable to process route and data and return reactive computed lists of pages
+const { children, parents, siblings } = usePages(useRoute(), data)
+</script>
+
+<template>
+  <Layout>
+    
+    <!-- Extending the default layout - put parents list right into the nav bar -->
+    <template #nav-bar-title-after>
+      <nav id="parents" class="grid">
+        <a v-for="parent in parents.slice(0, -1)" :key="parent.url" class="parent" :href="cleanLink(parent.url)">
+          {{ parent.frontmatter?.title }}
+        </a>
+      </nav>
+    </template>
+
+    <!-- This block goes right after the page text -->
+    <template #doc-after>
+
+      <!-- Children list -->
+      <nav id="children" class="grid">
+        <NavCard v-for="child in children" :key="child.url" :page="child" class="child">
+        </NavCard>
+      </nav>
+
+      <!-- Siblings pair -->
+      <nav id="siblings" class="grid">
+        <template v-for="sb in ['prev', 'next']" :key="sb">
+          <NavCard v-if="siblings?.[sb]" :page="siblings?.[sb]" class="sibling">
+          </NavCard>
+        </template>
+      </nav>
+
+    </template>
+  </Layout>
+</template>
 ```
 
 ## Display
 
-The last step is to create some [Vue 3](https://vuejs.org) components to display all the data. You can import any of the functions and use them with current (or another) route path.
+Your card for displaying pages can be any level of complexity. Here's a basic one for you to build upon.
 
-`<script setup>`
+```vue
+<script setup>
+const props = defineProps({
+  page: { type: Object, default: () => ({}) }
+})
+</script>
 
-```js
-import {
-	pages,
-	usePage,
-	useSiblings,
-	useParents,
-} from "@theme/composables/pages";
-
-import { useRoute } from "vitepress";
-const route = useRoute();
-
-const page = computed(() => usePage(route.path));
-const siblings = computed(() => useSiblings(route.path));
-const parents = computed(() => useParents(route.path));
-const children = computed(() => pages[route.path]);
+<template>
+  <a v-if="page" :href="page?.url" :style="{ background: `url(${page?.frontmatter?.cover})` }">
+    <div>
+      <slot></slot>
+      <h3>{{ page?.frontmatter?.title }}</h3>
+      <h4>{{ page?.frontmatter?.description }}</h4>
+    </div>
+  </a>
+</template>
 ```
 
-`<template>`
-
-Be creative!
-
-```html
-<section v-for="page in pages" :key="page">
-	<img :src="page.cover" />
-	<h2>{{ page.title }}</h2>
-	<p>{{ page.subtitle }}</p>
-	<h3 v-for="child in pages[page.path]" :key="child">{{ child.title }}</h3>
-</section>
-```
+Stay creative!

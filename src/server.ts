@@ -1,9 +1,9 @@
-import * as url from 'url';
-import * as fs from "fs";
-import * as path from "path";
-import sharp from "sharp";
+import url from 'url'
+import fs from "fs"
+import path from "path"
+import sharp from "sharp"
 
-import { cleanLink } from './browser';
+import { cleanLink } from './client'
 
 export function transformPages({
   root = url.fileURLToPath(new URL('../', import.meta.url)),
@@ -16,6 +16,7 @@ export function transformPages({
     mediaFolder: 'media_files',
     mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
   }) {
+
   return async function transform(routes) {
 
     for (let r in routes) {
