@@ -1,6 +1,6 @@
 import { createContentLoader } from 'vitepress'
 
-import { transformPages } from './src/index'
+import { transformPages } from './src/server'
 
 export default createContentLoader('./**/*/*.md', {
   transform: transformPages({

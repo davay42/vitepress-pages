@@ -1,6 +1,6 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
-import { usePages, cleanLink } from '../../src/browser';
+import { usePages, cleanLink } from '../../src/client';
 import { useRoute, useData } from 'vitepress'
 import { data } from '../../pages.data.js'
 import NavCard from './NavCard.vue';
