@@ -14,4 +14,4 @@ Test text in the child page
 
 This is after the excerpt
 
-<browser />
+

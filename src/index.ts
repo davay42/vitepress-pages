@@ -1,87 +1,87 @@
+import * as url from 'url';
 import * as fs from "fs";
 import * as path from "path";
-import matter from "gray-matter";
 import sharp from "sharp";
-import { normalize } from "./browser";
-import * as url from 'url';
-import type { Route, Pages } from './types'
+
+import { cleanLink } from './browser';
+
+type options = {}
 
 
-export function extendRoutes({
-  root = url.fileURLToPath(new URL('..', import.meta.url)),
-  publicFolder = 'public',
-  graymatter = {
-    excerpt: true,
-    excerpt_separator: "<!-- excerpt -->",
-  },
-  mediaFolder = "media_files",
-  mediaTypes = {
-    icon: { width: 300, height: 300, fit: "inside" },
-    cover: { size: 1200, height: 800, fit: "inside" },
-  },
-} = {}) {
-  function extendRoute(route: Route): Route {
-    const pageDir = path.resolve(root, route.component.substring(1));
-    const frontmatter = matter.read(pageDir, graymatter);
-    const { data, excerpt, content } = frontmatter;
-    const { name, path: routePath, component } = route
-    const page = {
-      ...route,
-      name,
-      path: normalize(routePath),
-      component,
-      ...data,
-      excerpt,
-      empty: !content,
-      content: '',
-    };
+export function transformPages({
+  rootFolder = '../',
+  publicFolder = "public",
+  mediaFolder = 'media_files',
+  mediaTypes = { cover: { size: 1200, height: 1000, fit: "inside" } }
+} = {
+    rootFolder: '../',
+    publicFolder: "public",
+    mediaFolder: 'media_files',
+    mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
+  }) {
+  return async function transform(routes) {
 
-    if (data.type == "block") {
-      page.content = content;
-    }
-    for (let media in mediaTypes) {
-      if (data[media]) {
-        let file = data[media];
-        const filePath = path.join(route.path, file);
-        const fileName = filePath.split("/").filter(Boolean).join("-");
-        const publicPath = path.resolve(root, publicFolder, mediaFolder, media);
-        const fullPath = path.join(publicPath, fileName)
-        const url = path.join("/", mediaFolder, media, fileName);
+    const root = url.fileURLToPath(new URL(rootFolder, import.meta.url))
 
-        page[media] = url;
+    for (let r in routes) {
+      const page = routes[r]
+      const data = page.frontmatter
 
-        if (fs.existsSync(fullPath)) {
-          continue
-        }
+      for (let media in mediaTypes) {
+        if (data[media] && !data[media].includes(mediaFolder)) {
+          let file = data[media];
+          const filePath = path.join(cleanLink(page.url), file);
+          const fileName = filePath.split("/").filter(Boolean).join("-");
+          const publicPath = path.resolve(root, publicFolder, mediaFolder, media);
+          const fullPath = path.join(publicPath, fileName)
+          const url = path.join("/", mediaFolder, media, fileName);
 
-        if (!fs.existsSync(path.dirname(fullPath))) {
-          fs.mkdirSync(
-            path.dirname(fullPath),
-            { recursive: true }
-          );
-        }
+          // The actual frontmatter transform is happening here
+          routes[r].frontmatter[media] = url;
 
-        if (filePath.endsWith(".svg")) {
-          fs.copyFileSync(
-            path.resolve(root, filePath.substring(1)),
-            fullPath
-          );
-        } else {
-          sharp(path.resolve(root, filePath.substring(1)))
-            .resize({
-              width: media == "icon" ? 300 : 1200,
-              height: media == "icon" ? 300 : 1200,
-              fit: "inside",
-            })
-            .toFile(fullPath, (err, info) => {
-              if (err) {
-                console.log(err, filePath, info);
-              }
-            });
+          if (fs.existsSync(fullPath)) {
+            continue
+          }
+
+          if (!fs.existsSync(path.dirname(fullPath))) {
+            fs.mkdirSync(
+              path.dirname(fullPath),
+              { recursive: true }
+            );
+          }
+
+          if (filePath.endsWith(".svg")) {
+            fs.copyFileSync(
+              path.resolve(root, filePath.substring(1)),
+              fullPath
+            );
+          } else {
+            await sharp(path.resolve(root, filePath.substring(1)))
+              .resize({
+                width: mediaTypes[media].width,
+                height: mediaTypes[media].height,
+                fit: "inside",
+              })
+              .png({
+                force: false,
+                quality: 30
+              })
+              .jpeg({
+                force: false,
+                quality: 70
+              })
+              .toFile(fullPath, (err, info) => {
+                if (err) {
+                  console.log(err, filePath, info);
+                }
+              });
+          }
         }
       }
     }
-    return page;
+
+    return routes.sort((a, b) => {
+      return +new Date(b.frontmatter?.date) - +new Date(a.frontmatter?.date)
+    })
   }
-  return { extendRoute }
 }
