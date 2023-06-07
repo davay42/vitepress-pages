@@ -27,8 +27,8 @@
 		".": {
 			"import": "./dist/index.js"
 		},
-		"./transform": {
-			"import": "./dist/transform.js"
+		"./media": {
+			"import": "./dist/media.js"
 		}
 	},
 	"files": [
@@ -56,7 +56,7 @@
 	},
 	"tsup": {
 		"entry": [
-			"src/transform.ts",
+			"src/media.ts",
 			"src/index.ts"
 		],
 		"format": [

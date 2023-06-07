@@ -10,15 +10,15 @@ A Vitepress extension for automatic navigation generation for any `markdown` dat
 
 It helps you generate navigation data: page hierarchy, parents, siblings and children for any given page using Vitepress built-in functionality.
 
-### In Node.JS
-
-With Vitepress 1.0 we can get a list of all markdown pages with a `glob` patter via the `createContentLoader` in a `pages.data.js` file.
-
-You can use the provided default export `transformPages()` function to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder` folder. The script will take a relative path to an image near the .md file, optimize it with [sharp.js](https://github.com/lovell/sharp) and change the url in the frontmatter to match the new static image location.
-
 ### In browser
 
-You can use the `usePages`, `useChildren`, `useParents`, `useSiblings` to get reactive `computed` values to build your own navigation interfaces.
+You can import the `usePages`, `useChildren`, `useParents`, `useSiblings` from `vitepress-pages` and get reactive `computed` values to build your own navigation interface.
+
+### In Node.JS
+
+With Vitepress 1.0 we can get a list of all markdown pages with a `glob` pattern with the `createContentLoader` in a `pages.data.js` file.
+
+You can use the provided default export `transformMedia()` function from `vitepress-pages/media` to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder` folder. The script will take a relative path to an image near the .md file, optimize it with [sharp.js](https://github.com/lovell/sharp) and change the url in the frontmatter to match the new static image location.
 
 ## Installation
 
