@@ -1,4 +1,4 @@
-### File system based routing for [`Vitepress`](https://vitepress.vuejs.org/) digital gardening
+### File system based routing for digital gardening with [`Vitepress`](https://vitepress.vuejs.org/)
 
 ![](https://img.shields.io/npm/v/vitepress-pages?color=%23eee&style=for-the-badge)
 
@@ -12,20 +12,17 @@ It helps you generate navigation data: page hierarchy, parents, siblings and chi
 
 ### In Node.JS
 
-You first get a list of all markdown pages via the `createContentLoader` in a `pages.data.js` file and use the provided `transformPages()` function to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder` folder.
+With Vitepress 1.0 we can get a list of all markdown pages with a `glob` patter via the `createContentLoader` in a `pages.data.js` file.
+
+You can use the provided default export `transformPages()` function to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder` folder. The script will take a relative path to an image near the .md file, optimize it with [sharp.js](https://github.com/lovell/sharp) and change the url in the frontmatter to match the new static image location.
 
 ### In browser
 
 You can use the `usePages`, `useChildren`, `useParents`, `useSiblings` to get reactive `computed` values to build your own navigation interfaces.
 
-
-Tech used:
-
-- [sharp](https://github.com/lovell/sharp) for image resizing.
-
 ## Installation
 
-Add `vitepress-pages` as a dependency to your project (not a devDependency as we'll need `vitepress-pages/browser` functions on client too)
+Add `vitepress-pages` as a dependency to your project.
 
 ```bash
 pnpm i vitepress-pages
@@ -42,7 +39,7 @@ pnpm i vitepress-pages
 import { createContentLoader } from 'vitepress'
 
 // import the main transformer factory
-import transformPages from 'vitepress-pages'
+import transformPages from 'vitepress-pages/transform'
 
 // export the content data-loader for your markdown files folder
 export default createContentLoader('./**/*/*.md', {
@@ -97,7 +94,7 @@ import DefaultTheme from 'vitepress/theme'
 const { Layout } = DefaultTheme
 
 // Package functions to use
-import { usePages, cleanLink } from 'vitepress-pages/browser';
+import { usePages, cleanLink } from 'vitepress-pages';
 
 // The way to react to route changes
 import { useRoute } from 'vitepress'

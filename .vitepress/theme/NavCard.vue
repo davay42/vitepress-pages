@@ -1,5 +1,5 @@
 <script setup>
-import { cleanLink } from '../../src/client';
+import { cleanLink } from '../../src/index';
 
 
 

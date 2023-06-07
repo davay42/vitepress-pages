@@ -3,7 +3,7 @@ import fs from "fs"
 import path from "path"
 import sharp from "sharp"
 
-import { cleanLink } from './client'
+import { cleanLink } from './'
 
 export default function ({
   root = new URL('../', import.meta.url),

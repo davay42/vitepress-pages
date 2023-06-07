@@ -25,20 +25,17 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"import": "./dist/server.js"
+			"import": "./dist/index.js"
 		},
-		"./server": {
-			"import": "./dist/server.js"
-		},
-		"./client": {
-			"import": "./dist/client.js"
+		"./transform": {
+			"import": "./dist/transform.js"
 		}
 	},
 	"files": [
 		"dist"
 	],
-	"main": "./dist/server.js",
-	"types": "./dist/client.d.ts",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"scripts": {
 		"build": "vitepress build",
 		"dev": "vitepress dev",
@@ -59,8 +56,8 @@
 	},
 	"tsup": {
 		"entry": [
-			"src/server.ts",
-			"src/client.ts"
+			"src/transform.ts",
+			"src/index.ts"
 		],
 		"format": [
 			"esm"
