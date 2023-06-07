@@ -12,13 +12,13 @@ It helps you generate navigation data: page hierarchy, parents, siblings and chi
 
 ### In browser
 
-You can import the `usePages`, `useChildren`, `useParents`, `useSiblings` from `vitepress-pages` and get reactive `computed` values to build your own navigation interface.
+Import the `usePages`, `useChildren`, `useParents` or `useSiblings` from `vitepress-pages` and get reactive `computed` values to build your own navigation interface.
 
 ### In Node.JS
 
-With Vitepress 1.0 we can get a list of all markdown pages with a `glob` pattern with the `createContentLoader` in a `pages.data.js` file.
+With Vitepress 1.0 we got the [build-time data loading](https://vitepress.dev/guide/data-loading) that give a list of all markdown pages with a `glob` pattern with the `createContentLoader` within special `*.data.js` files.
 
-You can use the provided default export `transformMedia()` function from `vitepress-pages/media` to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder` folder. The script will take a relative path to an image near the .md file, optimize it with [sharp.js](https://github.com/lovell/sharp) and change the url in the frontmatter to match the new static image location.
+You can use the `vitepress-pages/media` default export function to go through the raw routes to optimize all the used `mediaTypes` images and copy them to the `publicFolder/mediaFolder` path. The script will take an image path relative  to a given the `.md` file, optimize it with [sharp.js](https://github.com/lovell/sharp) and change the frontmatter media URL to match the new static image location. This is really helpful to generate have illustrated blogs and much more.
 
 ## Installation
 
@@ -39,13 +39,13 @@ pnpm i vitepress-pages
 import { createContentLoader } from 'vitepress'
 
 // import the main transformer factory
-import transformPages from 'vitepress-pages/transform'
+import VPMedia from 'vitepress-pages/media'
 
 // export the content data-loader for your markdown files folder
 export default createContentLoader('./**/*/*.md', {
   
   //transform pages: optimize images
-  transform: transformPages({
+  transform: VPMedia({
     
     //we need the root path to be precise about placing the media files
     root: new URL('./', import.meta.url),
@@ -61,10 +61,10 @@ export default createContentLoader('./**/*/*.md', {
 
 ## Options
 
-You can customize the `transformPages` call with these options.
+You can customize the `VPMedia` call with these options.
 
 ```js
-transformPages({
+VPMedia({
 
   // Mandatory field
   root: new URL('../', import.meta.url),
@@ -75,7 +75,7 @@ transformPages({
   // Where to put the optimized images?
   mediaFolder: 'media_files',
 
-  // What fields in the frontmatter contain pictures to optimize. Usually 'cover' and/or 'icon'
+  // What fields in the frontmatter contain pictures to optimize. The most useful are 'cover', 'icon', 'avatar', 'logo'. 
   mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
 })
 ```
