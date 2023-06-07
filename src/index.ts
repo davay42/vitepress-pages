@@ -1,6 +1,8 @@
 import { computed, ref } from 'vue'
 import type { Route } from 'vitepress'
 
+//!SECTION Reactive composables
+
 export function usePages(route: Route, routes: { [key: string]: string }[]) {
 
   const rs = ref(routes)
@@ -25,6 +27,18 @@ export function useParents(route: Route, routes) {
 
 export function useSiblings(route: Route, routes) {
   return computed(() => getSiblings(route.path, routes))
+}
+
+export function usePage(route: Route, routes) {
+  return computed(() => getPage(route.path, routes))
+}
+
+//!SECTION non reactive getters
+
+export function getPage(path: string, routes): Route {
+  return routes.find((p) => {
+    return cleanLink(p.url) == path
+  });
 }
 
 export function getPages(routes) {
