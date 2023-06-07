@@ -37,7 +37,7 @@ export function usePage(route: Route, routes) {
 
 export function getPage(path: string, routes): Route {
   return routes.find((p) => {
-    return cleanLink(p.url) == path
+    return cleanLink(p.url) == cleanLink(path)
   });
 }
 
