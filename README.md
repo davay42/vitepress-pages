@@ -30,7 +30,7 @@ pnpm i vitepress-pages
 
 ## How to use
 
-1. Put your `*.data.js` to the root folder of your digital garden.
+1. Put a `*.data.js` to the root folder of your digital garden.
 
 `pages.data.js`
 
