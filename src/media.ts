@@ -2,6 +2,7 @@ import url from 'url'
 import fs from "fs"
 import path from "path"
 import sharp from "sharp"
+import type { ContentData } from 'vitepress'
 
 import { cleanLink } from './'
 
@@ -19,7 +20,7 @@ export default function ({
 
   const appRoot = url.fileURLToPath(root)
 
-  return async function transform(routes) {
+  return async function transform(routes: ContentData[]) {
 
     for (let r in routes) {
       const page = routes[r]

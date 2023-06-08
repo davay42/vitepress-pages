@@ -1,9 +1,7 @@
 import { computed, ref } from 'vue'
-import type { Route } from 'vitepress'
+import type { Route, ContentData } from 'vitepress'
 
-//!SECTION Reactive composables
-
-export function usePages(route: Route, routes: { [key: string]: string }[]) {
+export function usePages(route: Route, routes: ContentData[]) {
 
   const rs = ref(routes)
 
@@ -17,32 +15,31 @@ export function usePages(route: Route, routes: { [key: string]: string }[]) {
   }
 }
 
-export function useChildren(route: Route, routes) {
+export function useChildren(route: Route, routes: ContentData[]) {
   return computed(() => getPages(routes)[cleanLink(route.path)])
 }
 
-export function useParents(route: Route, routes) {
+export function useParents(route: Route, routes: ContentData[]) {
   return computed(() => getParents(route.path, routes))
 }
 
-export function useSiblings(route: Route, routes) {
+export function useSiblings(route: Route, routes: ContentData[]) {
   return computed(() => getSiblings(route.path, routes))
 }
 
-export function usePage(route: Route, routes) {
+export function usePage(route: Route, routes: ContentData[]) {
   return computed(() => getPage(route.path, routes))
 }
 
-//!SECTION non reactive getters
 
-export function getPage(path: string, routes): Route {
+export function getPage(path: string, routes: ContentData[]) {
   return routes.find((p) => {
     return cleanLink(p.url) == cleanLink(path)
   });
 }
 
-export function getPages(routes) {
-  let pageList = {}
+export function getPages(routes: ContentData[]) {
+  let pageList: Record<string, ContentData[]> = {}
   for (let route of routes) {
     if (route.url == '/') continue
     const folder = normalize(route.url.split("/").slice(0, -2).join("/"))
@@ -62,7 +59,7 @@ export function getPages(routes) {
 }
 
 
-export function getParents(path: string, routes) {
+export function getParents(path: string, routes: ContentData[]) {
   path = cleanLink(path)
   const parents = [];
   const url = path.split("/").filter(Boolean);
@@ -78,8 +75,8 @@ export function getParents(path: string, routes) {
 }
 
 
-export function getSiblings(path: string, routes) {
-  let prev, next, index, total
+export function getSiblings(path: string, routes: ContentData[]) {
+  let prev: ContentData, next: ContentData, index: number, total: number
   const folder = normalize(path.split("/").slice(0, -2).join("/"));
   const list = getPages(routes)[folder]
 
