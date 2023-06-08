@@ -14,9 +14,7 @@ export default function (metaData: {
   tags?: string,
   umamiScript?: string,
   umamiId?: string,
-}
-
-) {
+}) {
   return function transformHead({ pageData }) {
     const url = pageData.relativePath.split('index.md')[0]
     let image = metaData?.image
