@@ -165,4 +165,4 @@ const props = defineProps({
 </template>
 ```
 
-Stay creative!
+Enjoy your digital garden being published online!
