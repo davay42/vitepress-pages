@@ -93,7 +93,7 @@ VPMedia({
 import DefaultTheme from 'vitepress/theme'
 const { Layout } = DefaultTheme
 
-// Package functions to use
+// Composables to use
 import { usePages, cleanLink } from 'vitepress-pages';
 
 // The way to react to route changes
