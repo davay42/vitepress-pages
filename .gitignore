@@ -1,6 +1,6 @@
 node_modules
 .DS_Store
-public
+public/media_files
 dist
 docs
 info

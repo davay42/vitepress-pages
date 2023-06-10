@@ -41,7 +41,6 @@ export function getPage(path: string, routes: ContentData[]) {
 export function getPages(routes: ContentData[]) {
   let pageList: Record<string, ContentData[]> = {}
   for (let route of routes) {
-    if (route.url == '/') continue
     const folder = normalize(route.url.split("/").slice(0, -2).join("/"))
     pageList[folder] = pageList[folder] || [];
     pageList[folder].push(route);
