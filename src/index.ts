@@ -10,9 +10,7 @@ export function usePages(route: Route, routes: ContentData[]) {
   const parents = computed(() => getParents(route.path, rs.value))
   const siblings = computed(() => getSiblings(route.path, rs.value))
 
-  return {
-    pages, siblings, children, parents
-  }
+  return { pages, siblings, children, parents }
 }
 
 export function useChildren(route: Route, routes: ContentData[]) {
@@ -83,10 +81,10 @@ export function getSiblings(path: string, routes: ContentData[]) {
     total = list.length
     index = list.findIndex((page) => cleanLink(page.url) == cleanLink(path));
     if (index >= 0 && index <= list.length) {
-      prev = list[index + 1];
+      next = list[index + 1];
     }
     if (index > 0) {
-      next = list[index - 1];
+      prev = list[index - 1];
     }
   }
   return { next, prev, index, total }
