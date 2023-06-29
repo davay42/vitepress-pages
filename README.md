@@ -1,10 +1,10 @@
-### File system based routing for digital gardening with [`Vitepress`](https://vitepress.vuejs.org/)
+# File system based routing for digital gardening with [`Vitepress`](https://vitepress.vuejs.org/)
 
-![](https://img.shields.io/npm/v/vitepress-pages?color=%23eee&style=for-the-badge)
+![npm badge](https://img.shields.io/npm/v/vitepress-pages?color=%23eee&style=for-the-badge)
 
 A Vitepress extension for automatic navigation generation for any `markdown` data collection.
 
-> This is `vitepress-pages` v.2.0 documentation, which is suitable for Vitepress v.1.0-beta.1 and higher. For v.1.0 docs go https://www.npmjs.com/package/vitepress-pages/v/1.0.5
+> This is `vitepress-pages` v.2.0 documentation, which is suitable for Vitepress v.1.0-beta.1 and higher. For v.1.x docs go <https://www.npmjs.com/package/vitepress-pages/v/1.0.5>
 
 ## What does it do?
 
@@ -194,6 +194,5 @@ export default defineConfig({
   transformHead: generateMeta(meta)
 });
 ```
-
 
 Enjoy your digital garden being published online!
