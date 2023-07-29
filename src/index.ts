@@ -98,3 +98,7 @@ export function normalize(url: string) {
 export function cleanLink(url: string) {
   return (url || '').replace(/\/[^/]*\.(html)$/, '/')
 }
+
+export function webP(file: string) {
+  return (file || '').replace(/\.[^.]+$/, '.webp')
+}

@@ -12,6 +12,7 @@ export default function (metaData: {
   color?: string,
   author?: string,
   tags?: string,
+  webp?: boolean,
   umamiScript?: string,
   umamiId?: string,
 }) {
@@ -19,7 +20,10 @@ export default function (metaData: {
     const url = pageData.relativePath.split('index.md')[0]
     let image = metaData?.image
     if (pageData.frontmatter?.cover) {
-      image = `${metaData.mediaFolder || 'media_files'}/cover/${url.split('/').join('-') + pageData.frontmatter?.cover}`
+
+      let fileName = metaData.webp ? pageData.frontmatter?.cover.replace(/\.[^.]+$/, '.webp') : pageData.frontmatter?.cover
+
+      image = `${metaData.mediaFolder || 'media_files'}/cover/${url.split('/').join('-') + fileName}`
     }
     return [
 

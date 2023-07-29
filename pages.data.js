@@ -5,7 +5,7 @@ import transformPages from './src/media'
 export default createContentLoader('./**/*/*.md', {
   transform: transformPages({
     mediaTypes: {
-      cover: { size: 1200, height: 1000, fit: "inside" },
+      cover: { size: 1200, height: 1000, fit: "inside", webp: true },
     }
   })
 })

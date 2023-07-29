@@ -10,12 +10,12 @@ export default function ({
   root = new URL('../', import.meta.url),
   publicFolder = "public",
   mediaFolder = 'media_files',
-  mediaTypes = { cover: { size: 1200, height: 1000, fit: "inside" } }
+  mediaTypes = { cover: { size: 1200, height: 1000, fit: "inside", webp: false } }
 } = {
     root: new URL('../', import.meta.url),
     publicFolder: "public",
     mediaFolder: 'media_files',
-    mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
+    mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside", webp: false } }
   }) {
 
   const appRoot = url.fileURLToPath(root)
@@ -69,7 +69,10 @@ export default function ({
                 force: false,
                 quality: 70
               })
-              .toFile(fullPath, (err, info) => {
+              .webp({
+                force: mediaTypes[media].webp
+              })
+              .toFile((mediaTypes[media].webp ? fullPath.replace(/\.[^.]+$/, '.webp') : fullPath), (err, info) => {
                 if (err) {
                   console.log(err, filePath, info);
                 }

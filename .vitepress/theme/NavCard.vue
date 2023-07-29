@@ -1,7 +1,5 @@
 <script setup>
-import { cleanLink } from '../../src/index';
-
-
+import { cleanLink, webP } from '../../src/index';
 
 const props = defineProps({
   page: { type: Object, default: () => ({}) }
@@ -9,7 +7,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <a v-if="page" :href="cleanLink(page?.url || '')" :style="{ backgroundImage: `url(${page?.frontmatter?.cover})` }">
+  <a v-if="page" :href="cleanLink(page?.url || '')"
+    :style="{ backgroundImage: `url(${webP(page?.frontmatter?.cover)})` }">
     <div>
       <slot></slot>
       <h3>{{ page?.frontmatter?.title }}</h3>
