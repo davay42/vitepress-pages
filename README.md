@@ -61,7 +61,7 @@ export default createContentLoader('./**/*/*.md', {
   mediaFolder: 'media_files',
 
   // What fields in the frontmatter contain pictures to optimize. The most useful are 'cover', 'icon', 'avatar', 'logo'. 
-  mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside" } }
+  mediaTypes: { cover: { size: 1200, height: 1000, fit: "inside", webp: false } }
   })
 })
 ```
